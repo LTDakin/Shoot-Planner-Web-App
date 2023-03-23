@@ -14,21 +14,27 @@ public class Photographer {
     private String camera;
     @Column(name = "email", length = 500)
     private String email;
+    @Column(name = "hash", length = 500)
+    private String hash;
+    @Column(name = "salt", length = 500)
+    private String salt;
 
     public Photographer() {
     }
 
-    public Photographer(Long id, String name, String camera, String email) {
+    public Photographer(Long id, String name, String camera, String email, String hash) {
         this.id = id;
         this.name = name;
         this.camera = camera;
         this.email = email;
+        this.hash = hash;
     }
 
-    public Photographer(String name, String camera, String email) {
+    public Photographer(String name, String camera, String email, String password) {
         this.name = name;
         this.camera = camera;
         this.email = email;
+        this.hash = hash;
     }
 
     public Long getId() {
@@ -62,6 +68,14 @@ public class Photographer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setHash(String password) { this.hash = hash; }
+
+    public String getHash() { return hash; }
+
+    public void setSalt(String salt) { this.salt = salt; }
+
+    public String getSalt() { return salt;}
 
     @Override
     public String toString() {

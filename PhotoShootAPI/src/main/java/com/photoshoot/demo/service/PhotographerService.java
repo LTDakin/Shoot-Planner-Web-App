@@ -4,6 +4,7 @@ import com.photoshoot.demo.data.PhotographerRepository;
 import com.photoshoot.demo.model.Photographer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,19 @@ public class PhotographerService {
     // insert a Photographer
     public Photographer insertPhotographer(Photographer photographer) {
         try {
-            // save to database
+            // TODO check if username is taken
+            if(!repo.findByName(photographer.getName()).isEmpty()){
+                throw new Exception("Username already exists in database");
+            }
+
+            // TODO encode the password
+            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
+            encoder.setEncodeHashAsBase64(true);
+            // this is a bit of a hack, essentially frontend is storing the user's entered pass into the hash field to be used here
+            // reason doing so, don't have to create entire new object format to pass information and can reuse photographer
+            String encodedPass = encoder.encode(photographer.getHash());
+
+            // TODO create new photographer object and save to database
             repo.save(photographer);
         }
         catch (Exception e){
@@ -61,7 +74,7 @@ public class PhotographerService {
         return photographer;
     }
 
-    // update a client
+    // update a photographer
     public Photographer putPhotographer(Photographer photographer) {
         try {
             repo.save(photographer);

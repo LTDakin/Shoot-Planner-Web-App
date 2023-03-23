@@ -27,6 +27,8 @@ public class PhotographerController {
         return photographerService.getPhotographerById(id);
     }
 
+    // TODO currently returns photographer as placeholder, but would like it to return ok status along with a cookie
+    // find a library that handles cookies Spring > React
     @PostMapping("")
     public Photographer insertPhotographer(@RequestBody Photographer photographer){
         return photographerService.insertPhotographer(photographer);
