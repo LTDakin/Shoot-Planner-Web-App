@@ -14,68 +14,53 @@ public class Photographer {
     private String camera;
     @Column(name = "email", length = 500)
     private String email;
-    @Column(name = "hash", length = 500)
-    private String hash;
-    @Column(name = "salt", length = 500)
-    private String salt;
+    @Column(name = "password", length = 500)
+    private String password;
 
     public Photographer() {
     }
 
-    public Photographer(Long id, String name, String camera, String email, String hash) {
+    public Photographer(Long id, String name, String camera, String email, String password) {
         this.id = id;
         this.name = name;
         this.camera = camera;
         this.email = email;
-        this.hash = hash;
+        this.password = password;
     }
 
     public Photographer(String name, String camera, String email, String password) {
         this.name = name;
         this.camera = camera;
         this.email = email;
-        this.hash = hash;
+        this.password = password;
     }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getCamera() {
         return camera;
     }
-
     public void setCamera(String camera) {
         this.camera = camera;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public void setHash(String password) { this.hash = hash; }
-
-    public String getHash() { return hash; }
-
-    public void setSalt(String salt) { this.salt = salt; }
-
-    public String getSalt() { return salt;}
+    public String getPassword(){ return password; }
+    public void setPassword(String password){ this.password = password;}
 
     @Override
     public String toString() {
@@ -84,6 +69,7 @@ public class Photographer {
                 ", name='" + name + '\'' +
                 ", camera='" + camera + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

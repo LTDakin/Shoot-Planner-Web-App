@@ -27,18 +27,21 @@ public class PhotographerController {
         return photographerService.getPhotographerById(id);
     }
 
-    // TODO currently returns photographer as placeholder, but would like it to return ok status along with a cookie
+    // TODO currently returns photographer as placeholder, but would like it to return a cookie
     // find a library that handles cookies Spring > React
     @PostMapping("")
     public Photographer insertPhotographer(@RequestBody Photographer photographer){
-        return photographerService.insertPhotographer(photographer);
+        photographerService.insertPhotographer(photographer);
+        return photographer;
     }
 
+    // TODO these need to check for cookies to make sure account owner is only one deleting, maybe take password too for extra security
     @DeleteMapping("/{id}")
     public Photographer deletePhotographer(@PathVariable int id){
         return photographerService.deletePhotographer(id);
     }
 
+    // TODO these need to check for cookies
     @PutMapping("/{id}")
     public Photographer putPhotographer(@PathVariable int id, @RequestBody Photographer photographer){
         photographer.setId((long) id);
