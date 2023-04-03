@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09c9d12b-e0a0-4a74-92c5-7036ff84e82c" name="Changes" comment="Added trusted cross origin for communication with front end">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/model/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="09c9d12b-e0a0-4a74-92c5-7036ff84e82c" name="Changes" comment="Password hashing for account creation using Pbkdf2PasswordEncoder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/controller/PhotographerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/controller/PhotographerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/model/Photographer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/model/Photographer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/service/PhotographerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/photoshoot/demo/service/PhotographerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,11 +93,27 @@
       <option name="project" value="LOCAL" />
       <updated>1679428592454</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Began setup for account creation functionality">
+      <created>1679607593848</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679607593848</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Password hashing for account creation using Pbkdf2PasswordEncoder">
+      <created>1680136135137</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680136135137</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added trusted cross origin for communication with front end" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added trusted cross origin for communication with front end" />
+    <MESSAGE value="Began setup for account creation functionality" />
+    <MESSAGE value="Password hashing for account creation using Pbkdf2PasswordEncoder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Password hashing for account creation using Pbkdf2PasswordEncoder" />
   </component>
 </project>

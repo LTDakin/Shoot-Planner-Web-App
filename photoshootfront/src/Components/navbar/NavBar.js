@@ -1,9 +1,13 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
+import LoginModal from '../LoginModal/loginModal';
 import cameraIcon from '../../Images/camera-icon.png'
+import profileTmp from '../../Images/profileTmp.png'
 
 function Navbar() {
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+
   return (
     <nav id="navbar">
       <ul>
@@ -17,11 +21,11 @@ function Navbar() {
       </li>
       <li id="profileLi">
       <div id="Profile">
-        <button>Profile</button>
+        <img src={profileTmp} alt="profileTmp" onClick={()=>setOpenLoginModal(true)}></img>
       </div>
       </li>
       </ul>
-      
+      {openLoginModal && <LoginModal closeloginmodal={setOpenLoginModal}/>}
     </nav>
   );
 }
