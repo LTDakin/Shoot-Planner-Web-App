@@ -38,23 +38,19 @@ public class PhotographerService {
     }
 
     // insert a Photographer
-    public void insertPhotographer(Photographer photographer) {
-        try {
-            // check if username is taken
-            if(!repo.findByName(photographer.getName()).isEmpty()){
-                throw new Exception("Username already exists in database");
-            }
-            // encode the password
-            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
-            encoder.setEncodeHashAsBase64(true);
-            String encodedPass = encoder.encode(photographer.getPassword());
-            // create new photographer object with the encoded password and save to database
-            Photographer newPhotographer = new Photographer(photographer.getName(), photographer.getCamera(), photographer.getEmail(), encodedPass );
-            repo.save(newPhotographer);
+    public void insertPhotographer(Photographer photographer) throws Exception {
+        // check if username or email is taken
+        // TODO add an findByEmail method in the Photographer Object
+        if(!repo.findByName(photographer.getName()).isEmpty()){
+            throw new Exception("Username already exists in database");
         }
-        catch (Exception e){
-            System.out.println("Error when saving Photographer Object to database : " + e.toString());
-        }
+        // encode the password
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
+        encoder.setEncodeHashAsBase64(true);
+        String encodedPass = encoder.encode(photographer.getPassword());
+        // create new photographer object with the encoded password and save to database
+        Photographer newPhotographer = new Photographer(photographer.getName(), photographer.getCamera(), photographer.getEmail(), encodedPass );
+        repo.save(newPhotographer);
     }
 
     // delete a Photographer

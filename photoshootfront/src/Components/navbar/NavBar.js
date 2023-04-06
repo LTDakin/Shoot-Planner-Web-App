@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import LoginModal from '../LoginModal/loginModal';
+import LoginModal from '../LoginModal/LoginModal';
 import cameraIcon from '../../Images/camera-icon.png'
 import profileTmp from '../../Images/profileTmp.png'
 

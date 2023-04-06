@@ -1,11 +1,9 @@
-import React from 'react'
+import {React, useState} from 'react'
 import './loginModal.css'
+import AccountCreationModal from '../accountCreationModal/AccountCreationModal';
 
-function loginModal({closeloginmodal}){
-
-    function createAccount () {
-        console.log("requesting api for account creation")
-    }
+function LoginModal({closeloginmodal}){
+    const [openACModal, setOpenACModal] = useState(false);
 
     function login () {
         console.log("requesting api for login")
@@ -24,17 +22,18 @@ function loginModal({closeloginmodal}){
                 </div>
                 <div className='body'>
                     <form className="form-body">
-                        <input label="Username" type="text" name="username"/>
-                        <input label="Password" type="password" name="password"/>
+                        <input placeholder="Username" label="Username" type="text" name="username"/>
+                        <input placeholder="Password" label="Password" type="password" name="password"/>
                     </form>
                 </div>
                 <div className='footer'>
                     <button id="cancelBtn" onClick={login}>Login</button>
-                    <button id="createBtn" onClick={createAccount}>Create Account</button>
+                    <button id="createBtn" onClick={()=>setOpenACModal(true)}>I'm New</button>
                 </div>
             </div>
+            {openACModal && <AccountCreationModal closeacmodal={setOpenACModal}/>}
         </div>
     )
 }
 
-export default loginModal
+export default LoginModal
