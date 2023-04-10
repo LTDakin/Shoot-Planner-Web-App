@@ -40,7 +40,6 @@ public class PhotographerService {
     // insert a Photographer
     public void insertPhotographer(Photographer photographer) throws Exception {
         // check if username or email is taken
-        // TODO add an findByEmail method in the Photographer Object
         if(!repo.findByName(photographer.getName()).isEmpty()){
             throw new Exception("Username already exists in database");
         }
@@ -75,5 +74,23 @@ public class PhotographerService {
             System.out.println("Error updating Photographer: " + e.toString());
         }
         return photographer;
+    }
+
+    public void loginPhotographer(Photographer photographer) {
+        // username must exist in database
+        Photographer dbPhotographer = repo.findByName(photographer.getName()).get(0);
+        if(dbPhotographer != null){
+            // hash the entered password
+            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
+            encoder.setEncodeHashAsBase64(true);
+            String encodedPass = encoder.encode(photographer.getPassword());
+            // check hashed entered password == hashed db password
+            if(dbPhotographer.getPassword() == encodedPass) {
+                // TODO give a cookie
+                System.out.println("have a cookie");
+            }
+            // TODO handle incorrect password
+        }
+        // TODO handle incorrect username
     }
 }
