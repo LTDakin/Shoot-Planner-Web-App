@@ -28,16 +28,24 @@ function AccountCreationModal({closeacmodal}){
                 password: formData.password
             })
         })
-        .then(response => response.json())
-        //if success then close the accountcreationmodal, store the cookie?, and go back to login
-        // this is running regardless of wheter the username exists or not because technically there is no error, need to find a way to check the response header and then react accordingly
+        // check for bad request
+        .then(response => {
+            if(response.ok)
+                response.json()
+            else
+                throw new Error("Username already taken")
+
+        })
+        // if success then close the accountcreationmodal, store the cookie?, and go back to login, should be skipped if response not ok
         .then(data => {
-            console.log(data)
+            // TODO remove this for security
+            console.log(data.body)
             closeacmodal(false)
         })
-        //if username taken or error then don't close and give a popup to let the user know something went wrong
+        // catches bad request error makes username error message visible
         .catch(error => {
-            alert("Username Already Exists")
+            document.getElementById("username_error_msg").style.visibility = "visible"
+            console.log(error)
         })
     }
 
@@ -54,6 +62,7 @@ function AccountCreationModal({closeacmodal}){
                 </div>
                 <div className='body'>
                     <form className="form-body">
+                        <p id="username_error_msg">Username is already taken</p>
                         <input placeholder="Username" type="text" name="username" value={formData.username} onChange={handleInputChange}/>
                         <input placeholder="Password" type="password" name="password" value={formData.password} onChange={handleInputChange}/>
                         <input placeholder="Email" type="email" name="email" value={formData.email} onChange={handleInputChange}/>

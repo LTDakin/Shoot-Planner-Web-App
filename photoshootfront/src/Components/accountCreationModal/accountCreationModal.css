@@ -78,3 +78,9 @@
 #cancelBtn{
     background-color: red;
 }
+
+#username_error_msg{
+    color: red;
+    visibility: hidden;
+    margin: 0;
+}
