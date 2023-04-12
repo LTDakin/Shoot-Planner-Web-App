@@ -1,11 +1,12 @@
 package com.photoshoot.demo.controller;
 
-import com.photoshoot.demo.model.Photo;
 import com.photoshoot.demo.model.Photographer;
 import com.photoshoot.demo.service.PhotographerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,20 +31,23 @@ public class PhotographerController {
     public Photographer getPhotographerById(@PathVariable int id){
         return photographerService.getPhotographerById(id);
     }
+
     // API Request for Login
     @PostMapping("/login")
-    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer){
+    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer, HttpServletResponse response){
         try{
-            photographerService.loginPhotographer(photographer);
-            return ResponseEntity.ok(photographer);
+            // on successful login add cookie to response and return ok status
+            Cookie cookie = photographerService.loginPhotographer(photographer);
+            response.addCookie(cookie);
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
         }
         catch(Exception e){
             Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("error", "Username Already Exists");
+            errorMap.put("error", "incorrect credentials");
             return ResponseEntity.badRequest().body(errorMap);
         }
     }
-    // find a library that handles cookies Spring > React
+
     // API Request for Account Creation
     @PostMapping("")
     public ResponseEntity<Object> insertPhotographer(@RequestBody Photographer photographer){

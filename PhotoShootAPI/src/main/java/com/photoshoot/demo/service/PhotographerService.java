@@ -5,6 +5,7 @@ import com.photoshoot.demo.model.Photographer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import javax.servlet.http.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class PhotographerService {
         return photographer;
     }
 
-    public void loginPhotographer(Photographer photographer) {
+    public Cookie loginPhotographer(Photographer photographer) throws Exception {
         // username must exist in database
         Photographer dbPhotographer = repo.findByName(photographer.getName()).get(0);
         if(dbPhotographer != null){
@@ -86,11 +87,20 @@ public class PhotographerService {
             String encodedPass = encoder.encode(photographer.getPassword());
             // check hashed entered password == hashed db password
             if(dbPhotographer.getPassword() == encodedPass) {
-                // TODO give a cookie
-                System.out.println("have a cookie");
+                // give a cookie
+                Cookie cookie = new Cookie("sessionId", dbPhotographer.getId().toString());
+                cookie.setHttpOnly(true);
+                cookie.setMaxAge(10800); // expire in 3 hours
+                return cookie;
             }
-            // TODO handle incorrect password
+            else {
+                // handle incorrect password
+                throw new Exception("incorrect password");
+            }
         }
-        // TODO handle incorrect username
+        else{
+            // handle incorrect username
+            throw new Exception("incorrect username");
+        }
     }
 }
