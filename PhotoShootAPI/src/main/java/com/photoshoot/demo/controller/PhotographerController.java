@@ -2,11 +2,12 @@ package com.photoshoot.demo.controller;
 
 import com.photoshoot.demo.model.Photographer;
 import com.photoshoot.demo.service.PhotographerService;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +35,13 @@ public class PhotographerController {
 
     // API Request for Login
     @PostMapping("/login")
-    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer, HttpServletResponse response){
+    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer){
         try{
             // on successful login add cookie to response and return ok status
             Cookie cookie = photographerService.loginPhotographer(photographer);
-            response.addCookie(cookie);
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Set-Cookie", cookie.toString());
+            return new ResponseEntity<>("Login successful", headers, HttpStatus.OK);
         }
         catch(Exception e){
             Map<String, String> errorMap = new HashMap<>();
@@ -49,6 +51,7 @@ public class PhotographerController {
     }
 
     // API Request for Account Creation
+    // TODO bug where account is created but error sent back, or frontend doesn't properly close the account creation modal and displays error message
     @PostMapping("")
     public ResponseEntity<Object> insertPhotographer(@RequestBody Photographer photographer){
         try {
