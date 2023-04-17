@@ -39,7 +39,7 @@ function AccountCreationModal({closeacmodal}){
         // if success then close the accountcreationmodal, store the cookie?, and go back to login, should be skipped if response not ok
         .then(data => {
             // TODO remove this for security
-            console.log(data.body)
+            console.log(data)
             closeacmodal(false)
         })
         // catches bad request error makes username error message visible
