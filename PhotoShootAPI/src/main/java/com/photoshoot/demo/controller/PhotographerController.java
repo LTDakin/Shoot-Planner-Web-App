@@ -3,10 +3,9 @@ package com.photoshoot.demo.controller;
 import com.photoshoot.demo.model.Photographer;
 import com.photoshoot.demo.service.PhotographerService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,18 +34,16 @@ public class PhotographerController {
 
     // API Request for Login
     @PostMapping("/login")
-    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer){
+    public ResponseEntity<Object> loginPhotographer(@RequestBody Photographer photographer, HttpServletResponse response){
         try{
-            // on successful login add cookie to response and return ok status
-            Cookie cookie = photographerService.loginPhotographer(photographer);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Set-Cookie", cookie.toString());
-            return new ResponseEntity<>("Login successful", headers, HttpStatus.OK);
+            // try logging in with credentials if it works then create a Response
+            Cookie cookie = photographerService.loginPhotographer(photographer.getName(), photographer.getPassword());
+            response.addCookie(cookie);
+            return ResponseEntity.ok(photographer);
         }
         catch(Exception e){
-            Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("error", "incorrect credentials");
-            return ResponseEntity.badRequest().body(errorMap);
+            System.out.println("Returning error response because of " + e.toString());
+            return null;
         }
     }
 

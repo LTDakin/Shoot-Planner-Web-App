@@ -15,6 +15,8 @@ public class PhotographerService {
 
     private final PhotographerRepository repo;
     @Autowired
+    private Pbkdf2PasswordEncoder passwordEncoder;
+    @Autowired
     public PhotographerService(PhotographerRepository repo) { this.repo = repo;}
 
     // get all Photographers
@@ -32,7 +34,7 @@ public class PhotographerService {
             return repo.findById((long) id);
         }
         catch (Exception e){
-            System.out.println("Error getting Photographer with id : " + id + ", Error: " + e.toString());
+            System.out.println("Error getting Photographer with id : " + id + ", Error: " + e);
         }
         // if entry cannot be found returns null
         return null;
@@ -45,9 +47,7 @@ public class PhotographerService {
             throw new Exception("Username already exists in database");
         }
         // encode the password
-        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
-        encoder.setEncodeHashAsBase64(true);
-        String encodedPass = encoder.encode(photographer.getPassword());
+        String encodedPass = passwordEncoder.encode(photographer.getPassword());
         // create new photographer object with the encoded password and save to database
         Photographer newPhotographer = new Photographer(photographer.getName(), photographer.getCamera(), photographer.getEmail(), encodedPass );
         repo.save(newPhotographer);
@@ -61,7 +61,7 @@ public class PhotographerService {
             repo.delete(photographer);
         }
         catch (Exception e){
-            System.out.println("Error deleting Photographer with id: "+id+" Error: " + e.toString());
+            System.out.println("Error deleting Photographer with id: "+id+" Error: " + e);
         }
         return photographer;
     }
@@ -72,34 +72,31 @@ public class PhotographerService {
             repo.save(photographer);
         }
         catch (Exception e){
-            System.out.println("Error updating Photographer: " + e.toString());
+            System.out.println("Error updating Photographer: " + e);
         }
         return photographer;
     }
 
-    public Cookie loginPhotographer(Photographer photographer) throws Exception {
+    public Cookie loginPhotographer(String name, String password) throws Exception {
         // username must exist in database
-        Photographer dbPhotographer = repo.findByName(photographer.getName()).get(0);
+        Photographer dbPhotographer = repo.findByName(name).get(0);
         if(dbPhotographer != null){
-            // hash the entered password
-            Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("pepper", 16, 2000, 256);
-            encoder.setEncodeHashAsBase64(true);
-            String encodedPass = encoder.encode(photographer.getPassword());
-            // check hashed entered password == hashed db password
-            if(dbPhotographer.getPassword() == encodedPass) {
-                // give a cookie
-                Cookie cookie = new Cookie("sessionId", dbPhotographer.getId().toString());
-                cookie.setHttpOnly(true);
-                cookie.setMaxAge(10800); // expire in 3 hours
+            // check entered password == db password, matches will automatically hash the stored password
+            if(passwordEncoder.matches(password, dbPhotographer.getPassword())) {
+                Cookie cookie = new Cookie("username", dbPhotographer.getName());
+                cookie.setMaxAge(60*60*24);
+                cookie.setPath("/");
                 return cookie;
             }
             else {
                 // handle incorrect password
+                System.out.println("password was incorrect");
                 throw new Exception("incorrect password");
             }
         }
         else{
             // handle incorrect username
+            System.out.println("Username was incorrect");
             throw new Exception("incorrect username");
         }
     }

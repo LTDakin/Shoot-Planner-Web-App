@@ -35,3 +35,11 @@ ul {
 #profileLi{
     float:right;
 }
+
+#usernameLi{
+  float:right;
+}
+
+#username{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
